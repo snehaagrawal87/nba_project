@@ -1,7 +1,3 @@
-
-
-
-
 from dash import Dash, dcc, html, Input, Output, State
 import pandas as pd
 import plotly.express as px
@@ -211,4 +207,4 @@ def show_player_details(player_id, selected_teams, selected_years, game_type):
 # Run server
 if __name__ == '__main__':
     server = app.server
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
