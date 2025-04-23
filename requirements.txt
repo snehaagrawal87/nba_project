@@ -3,4 +3,5 @@ numpy
 pandas
 scikit_learn
 plotly
-gunicorn
+# Replaced gunicorn with waitress for compatibility with Windows and Render.
+waitress
