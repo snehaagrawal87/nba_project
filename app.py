@@ -207,4 +207,4 @@ def show_player_details(player_id, selected_teams, selected_years, game_type):
 # Run server
 if __name__ == '__main__':
     server = app.server
-    app.run(debug=True, port=8080)
+    app.run(debug=True,host='0.0.0.0', port=8080)
