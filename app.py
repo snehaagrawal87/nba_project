@@ -1,3 +1,7 @@
+
+
+
+
 from dash import Dash, dcc, html, Input, Output, State
 import pandas as pd
 import plotly.express as px
@@ -12,50 +16,30 @@ app = Dash(__name__, suppress_callback_exceptions=True)
 
 app.title = "NBA Dashboard"
 
-# Updated the UI to make it more aesthetic by adding consistent padding, margins, and hover effects for dropdowns and buttons.
 app.layout = html.Div([
-    html.H1("🏀 NBA Player Performance Dashboard", style={
-        'textAlign': 'center', 
-        'padding': '20px', 
-        'backgroundColor': '#1e1e2f', 
-        'color': 'white',
-        'borderRadius': '10px',
-        'marginBottom': '20px'
-    }),
+    html.H1("🏀 NBA Player Performance Dashboard", style={'textAlign': 'center', 'padding': '10px', 'backgroundColor': '#1e1e2f', 'color': 'white'}),
 
     html.Div([
         # Sidebar filters
         html.Div([
-            html.H3("Filters", style={'color': '#333', 'marginBottom': '20px'}),
-            html.Label("Select Team:", style={'marginTop': '10px', 'fontWeight': 'bold'}),
+            html.H3("Filters", style={'color': '#333'}),
+            html.Label("Select Team:", style={'marginTop': '10px'}),
             dcc.Dropdown(
                 id='team-filter',
                 options=[{'label': team, 'value': team} for team in sorted(df['Tm'].unique())],
                 multi=True,
                 placeholder="All Teams",
-                style={
-                    'padding': '6px', 
-                    'marginBottom': '15px', 
-                    'borderRadius': '5px',
-                    'boxShadow': '0 2px 5px rgba(0,0,0,0.1)'
-                },
-                className='dropdown'
+                style={'padding': '6px', 'marginBottom': '15px'}
             ),
-            html.Label("Select Year:", style={'marginTop': '15px', 'fontWeight': 'bold'}),
+            html.Label("Select Year:", style={'marginTop': '15px'}),
             dcc.Dropdown(
                 id='year-filter',
                 options=[{'label': str(year), 'value': year} for year in sorted(df['Year'].unique())],
                 multi=True,
                 placeholder="All Years",
-                style={
-                    'padding': '6px', 
-                    'marginBottom': '15px', 
-                    'borderRadius': '5px',
-                    'boxShadow': '0 2px 5px rgba(0,0,0,0.1)'
-                },
-                className='dropdown'
+                style={'padding': '6px', 'marginBottom': '15px'}
             ),
-            html.Label("Select Game Type:", style={'marginTop': '15px', 'fontWeight': 'bold'}),
+            html.Label("Select Game Type:", style={'marginTop': '15px'}),
             dcc.Dropdown(
                 id='game-type-filter',
                 options=[
@@ -64,63 +48,30 @@ app.layout = html.Div([
                     {'label': 'Playoffs Only', 'value': 'playoffs'},
                 ],
                 value='all',
-                style={
-                    'padding': '6px', 
-                    'marginBottom': '15px', 
-                    'borderRadius': '5px',
-                    'boxShadow': '0 2px 5px rgba(0,0,0,0.1)'
-                },
-                className='dropdown'
+                style={'padding': '6px', 'marginBottom': '15px'}
             ),
-            html.Button("Apply Filters", id='apply-btn', n_clicks=0, style={
-                'marginTop': '20px', 
-                'padding': '10px', 
-                'borderRadius': '5px',
-                'backgroundColor': '#007bff',
-                'color': 'white',
-                'border': 'none',
-                'cursor': 'pointer',
-                'boxShadow': '0 2px 5px rgba(0,0,0,0.1)'
-            }, className='button')
+            html.Button("Apply Filters", id='apply-btn', n_clicks=0, style={'marginTop': '20px', 'padding': '10px'})
         ], style={
             'flex': '25%',
             'padding': '20px',
             'backgroundColor': '#f4f4f4',
             'borderRight': '1px solid #ccc',
             'height': '85vh',
-            'overflowY': 'auto',
-            'borderRadius': '10px'
+            'overflowY': 'auto'
         }),
 
         # Main content area
         html.Div([
             dcc.Tabs(id='tabs', value='tab1', children=[
-                dcc.Tab(label='🏆 Top Player Metrics', value='tab1', style={'padding': '10px'}),
-                dcc.Tab(label='📈 Game Score Dist.', value='tab2', style={'padding': '10px'}),
-                dcc.Tab(label='🎯 Points vs Assists', value='tab3', style={'padding': '10px'}),
-                dcc.Tab(label='📊 Team Stats Overview', value='tab4', style={'padding': '10px'})
-            ], style={
-                'marginBottom': '20px',
-                'borderRadius': '10px',
-                'boxShadow': '0 2px 5px rgba(0,0,0,0.1)'
-            }),
+                dcc.Tab(label='🏆 Top Player Metrics', value='tab1'),
+                dcc.Tab(label='📈 Game Score Dist.', value='tab2'),
+                dcc.Tab(label='🎯 Points vs Assists', value='tab3'),
+                dcc.Tab(label='📊 Team Stats Overview', value='tab4')
+            ]),
             html.Div(id='tabs-content', style={'padding': '20px'}),
-            html.Div(id='player-details', style={
-                'padding': '20px',
-                'borderRadius': '10px',
-                'boxShadow': '0 2px 5px rgba(0,0,0,0.1)',
-                'backgroundColor': '#fff'
-            })  # New: player detail section
-        ], style={
-            'flex': '75%', 
-            'padding': '10px',
-            'borderRadius': '10px'
-        })
-    ], style={
-        'display': 'flex', 
-        'flexDirection': 'row',
-        'gap': '20px'
-    }),
+            html.Div(id='player-details', style={'padding': '20px'})  # New: player detail section
+        ], style={'flex': '75%', 'padding': '10px'})
+    ], style={'display': 'flex', 'flexDirection': 'row'}),
 
     # Hidden store
     dcc.Store(id='selected-player-id'),
@@ -132,14 +83,7 @@ app.layout = html.Div([
             html.P("This dashboard provides an interactive exploration of NBA player statistics, allowing filtering by team, season, and game type."),
             html.P("Use the tabs to view top players, score distribution, scoring vs assists, and team-level stats. Each chart includes brief insights to help interpret the data."),
             html.P("Built by Sneha. Data from Basketball Reference.")
-        ], style={
-            'textAlign': 'center', 
-            'padding': '15px', 
-            'backgroundColor': '#1e1e2f', 
-            'color': 'white',
-            'borderRadius': '10px',
-            'marginTop': '20px'
-        })
+        ], style={'textAlign': 'center', 'padding': '15px', 'backgroundColor': '#1e1e2f', 'color': 'white'})
     ])
 ])
 
@@ -266,4 +210,5 @@ def show_player_details(player_id, selected_teams, selected_years, game_type):
 
 # Run server
 if __name__ == '__main__':
+    server = app.server
     app.run(debug=True)
